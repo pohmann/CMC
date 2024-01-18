@@ -64,6 +64,15 @@ public class UserInteraction {
 		
 		return UserController.addUser(username, password, firstName, lastName, isAdmin);
 	}
+	
+	// ask the admin for a username and then remove that user from the
+	// database
+	public static boolean removeUser(Scanner s) {
+		System.out.print("Username: ");
+		String username = s.nextLine();
+
+		return UserController.removeUser(username);
+	}
 
 	/**
 	 * Get the current username for the current user logged in via

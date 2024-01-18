@@ -76,15 +76,18 @@ public class Driver {
 		}
 		System.out.println();
 		
-		int choice = getMenuOption(s, List.of("Add User", "Go Back"));
+		int choice = getMenuOption(s, List.of("Add User", "Remove User", "Go Back"));
 		
 		switch(choice) {
 		case 1:
-			boolean success = UserInteraction.addUser(s);
-			if (!success)
+			if (!UserInteraction.addUser(s))
 				System.out.println("Failed to add new user.  (Username already exists?)");
 			break;
 		case 2:
+			if (!UserInteraction.removeUser(s))
+				System.out.println("Failed to remove user.  (Invalid username?)");
+			break;
+		case 3:
 			return;
 		default:
 			System.err.println("Internal error: Unsupported option.");

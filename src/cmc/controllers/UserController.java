@@ -22,7 +22,26 @@ public class UserController {
 	// provided details
 	public static boolean addUser(String username, String password,
 			String firstName, String lastName, boolean isAdmin) {
-		return DatabaseController.addUser(username, password, firstName, lastName, isAdmin);
+		char type = (isAdmin ? 'a' : 'u');
+		try {
+			return DatabaseController.addUser(username, password, type, firstName, lastName);
+		} catch (CMCException e) {
+			// TODO: should we let the calling class report the error more
+			//       clearly by passing it on?
+			return false;
+		}
+	}
+	
+	// this ADMIN ONLY method attempts to remove a user from the database
+	// based on the provided username
+	public static boolean removeUser(String username) {
+		try {
+			return DatabaseController.removeUser(username);
+		} catch (CMCException e) {
+			// TODO: should we let the calling class report the error more
+			//       clearly by passing it on?
+			return false;
+		}
 	}
 
 }
