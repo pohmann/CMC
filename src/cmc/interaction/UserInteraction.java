@@ -1,7 +1,10 @@
 package cmc.interaction;
 
+import java.util.List;
+
 import cmc.CMCException;
 import cmc.controllers.LoginController;
+import cmc.controllers.UserController;
 
 public class UserInteraction {
 	
@@ -35,6 +38,11 @@ public class UserInteraction {
 			loggedInUser = null;
 			return true;
 		}
+	}
+	
+	// for admins, this gets the list of all users in the system
+	public static List<String[]> getAllUsers() {
+		return UserController.getAllUsers();
 	}
 
 	/**

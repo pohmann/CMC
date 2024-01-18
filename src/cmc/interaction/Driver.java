@@ -1,5 +1,6 @@
 package cmc.interaction;
 
+import java.util.List;
 import java.util.Scanner;
 
 public class Driver {
@@ -28,8 +29,35 @@ public class Driver {
 		}
 	}
 	
-	private static void adminUserListMenu() {
+	private static void adminUserListMenu(Scanner s) {
+		System.out.println("---------------");
+		System.out.println("Admin User List");
+		System.out.println("---------------");
 		
+		List<String[]> allUsers = UserInteraction.getAllUsers();
+		for (String[] user : allUsers) {
+			System.out.println(user[2] + " | " + user[0] + " | " + user[1]);
+		}
+		System.out.println();
+		
+		System.out.println("Choose an option:");
+		System.out.println("1: Go Back");
+		
+		int choice = getMenuOption(s, 1, 1);
+		while (choice == -1) {
+			System.out.println("Invalid option.");
+			System.out.println("Choose an option:");
+			System.out.println("1: Go Back");
+			choice = getMenuOption(s, 1, 1);
+		}
+		
+		switch(choice) {
+		case 1:
+			return;
+		default:
+			System.err.println("Internal error: Unsupported option.");
+			System.exit(1);
+		}
 	}
 	
 	private static void adminMenu(Scanner s) {
@@ -50,8 +78,16 @@ public class Driver {
 			choice = getMenuOption(s, 1, 2);
 		}
 		
-		if (choice == 2) {
+		switch(choice) {
+		case 1:
+			adminUserListMenu(s);
+			break;
+		case 2:
 			UserInteraction.logout();
+			break;
+		default:
+			System.err.println("Internal error: Unsupported option.");
+			System.exit(1);
 		}
 	}
 

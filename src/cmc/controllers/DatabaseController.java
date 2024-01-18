@@ -1,4 +1,7 @@
 package cmc.controllers;
+import java.util.ArrayList;
+import java.util.List;
+
 import cmc.CMCException;
 import dblibrary.project.csci230.*;
 
@@ -50,6 +53,18 @@ public class DatabaseController {
 		}
 		
 		return null;
+	}
+	
+	// get the list of all the users in the DB
+	public static List<String[]> getAllUsers() {
+		String[][] dbUserList = database.user_getUsers();
+		
+		ArrayList<String[]> result = new ArrayList<String[]>();
+		for (String[] user : dbUserList) {
+			result.add(user);
+		}
+		
+		return result;
 	}
 	
 }
