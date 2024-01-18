@@ -14,7 +14,7 @@ public class Driver {
 	 * @param maxChoice the maximum allowed option (inclusive)
 	 * @return the selected integer, or -1 if invalid input is entered
 	 */
-	private static int getMenuOption(Scanner s, int minChoice, int maxChoice) {
+	private static int getSingleMenuEntry(Scanner s, int minChoice, int maxChoice) {
 		String choice = s.nextLine();
 		try {
 			int numChoice = Integer.parseInt(choice);
@@ -29,10 +29,45 @@ public class Driver {
 		}
 	}
 	
+	/**
+	 * Get the selected menu option based on user entry.
+	 * This reads lines from the provided Scanner until the user enters
+	 * a menu option (number) that matches one of the options provided
+	 * (i.e., is between 1 and the number of options).
+	 * 
+	 * @param s the Scanner from which to read the user's input
+	 * @param options the menu options the user has
+	 * @return the selected menu option, as an integer (1 more than the
+	 * position in the options array)
+	 */
+	private static int getMenuOption(Scanner s, List<String> options) {		
+		int choice = -1;
+		while (choice == -1) {
+			System.out.println("Choose an option:");
+			for (int i = 0; i < options.size(); i++) {
+				System.out.println((i+1) + ": " + options.get(i));
+			}
+			choice = getSingleMenuEntry(s, 1, options.size());
+			if (choice == -1)
+				System.out.println("Invalid option.");
+		}
+		
+		return choice;
+	}
+	
+	// print the header for the current menu
+	private static void printHeader(String title) {
+		String dashes = "";
+		for (int i = 0; i < title.length(); i++)
+			dashes += "-";
+
+		System.out.println(dashes);
+		System.out.println(title);
+		System.out.println(dashes);
+	}
+	
 	private static void adminUserListMenu(Scanner s) {
-		System.out.println("---------------");
-		System.out.println("Admin User List");
-		System.out.println("---------------");
+		printHeader("Admin User List");
 		
 		List<String[]> allUsers = UserInteraction.getAllUsers();
 		for (String[] user : allUsers) {
@@ -40,16 +75,7 @@ public class Driver {
 		}
 		System.out.println();
 		
-		System.out.println("Choose an option:");
-		System.out.println("1: Go Back");
-		
-		int choice = getMenuOption(s, 1, 1);
-		while (choice == -1) {
-			System.out.println("Invalid option.");
-			System.out.println("Choose an option:");
-			System.out.println("1: Go Back");
-			choice = getMenuOption(s, 1, 1);
-		}
+		int choice = getMenuOption(s, List.of("Go Back"));
 		
 		switch(choice) {
 		case 1:
@@ -61,22 +87,9 @@ public class Driver {
 	}
 	
 	private static void adminMenu(Scanner s) {
-		System.out.println("----------");
-		System.out.println("Admin Menu");
-		System.out.println("----------");
+		printHeader("Admin Menu");
 		
-		System.out.println("Choose an option:");
-		System.out.println("1: View List of Users");
-		System.out.println("2: Logout");
-		
-		int choice = getMenuOption(s, 1, 2);
-		while (choice == -1) {
-			System.out.println("Invalid option.");
-			System.out.println("Choose an option:");
-			System.out.println("1: View List of Users");
-			System.out.println("2: Logout");
-			choice = getMenuOption(s, 1, 2);
-		}
+		int choice = getMenuOption(s, List.of("View List of Users", "Logout"));
 		
 		switch(choice) {
 		case 1:
@@ -92,7 +105,7 @@ public class Driver {
 	}
 
 	private static void topMenu(Scanner s) {
-		System.out.println("Welcome to Choose My College (CMC)!");
+		printHeader("Welcome to Choose My College (CMC)!");
 		System.out.println("Please log in.");
 
 		String username = "";
