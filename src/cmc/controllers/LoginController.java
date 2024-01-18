@@ -18,21 +18,22 @@ public class LoginController {
 	 * 
 	 * @param username the username to check
 	 * @param password the password to check for matching the username
-	 * @return whether the username and password match a database entry
+	 * @return the matching User object if the username and password match
+	 * a database entry, or null otherwise
 	 */
-	public static boolean login(String username, String password) {
+	public static User login(String username, String password) {
 		String[] userData = DatabaseController.getUser(username);
 		if (userData == null)
-			return false;
+			return null;
 		
 		User theUser = new User(userData[2], userData[3], userData[4].charAt(0), userData[0],
 				userData[1]);
 		
 		if (theUser.activated != 'Y' || !theUser.password.equals(password)) {
-			return false;
+			return null;
 		}
 		else {
-			return true;
+			return theUser;
 		}
 	}
 

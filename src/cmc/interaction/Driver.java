@@ -112,6 +112,21 @@ public class Driver {
 			System.exit(1);
 		}
 	}
+	
+	private static void regularUserMenu(Scanner s) {
+		printHeader("User Menu");
+		
+		int choice = getMenuOption(s, List.of("Logout"));
+		
+		switch(choice) {
+		case 1:
+			UserInteraction.logout();
+			break;
+		default:
+			System.err.println("Internal error: Unsupported option.");
+			System.exit(1);
+		}
+	}
 
 	private static void topMenu(Scanner s) {
 		printHeader("Welcome to Choose My College (CMC)!");
@@ -138,8 +153,10 @@ public class Driver {
 		while (true) {
 			if (UserInteraction.getLoggedInUser() == null)
 				topMenu(s);
-			else
+			else if (UserInteraction.getLoggedInUser().isAdmin())
 				adminMenu(s);
+			else
+				regularUserMenu(s);
 		}
 	}
 
