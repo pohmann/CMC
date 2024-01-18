@@ -113,13 +113,38 @@ public class Driver {
 		}
 	}
 	
+	private static void searchResultsMenu(Scanner s, List<String[]> results) {
+		printHeader("Search Results");
+
+		for (String[] school : results) {
+			System.out.println(school[0] + " | " + school[1]);
+		}
+		System.out.println();
+
+		int choice = getMenuOption(s, List.of("Go Back"));
+
+		switch(choice) {
+		case 1:
+			return;
+		default:
+			System.err.println("Internal error: Unsupported option.");
+			System.exit(1);
+		}
+	}
+	
 	private static void regularUserMenu(Scanner s) {
 		printHeader("User Menu");
 		
-		int choice = getMenuOption(s, List.of("Logout"));
+		int choice = getMenuOption(s, List.of("Search", "Logout"));
 		
 		switch(choice) {
 		case 1:
+			// TODO: it would be cleaner to use objects here (rather than
+			//       arrays of strings)
+			List<String[]> searchResult = UserInteraction.search(s);
+			searchResultsMenu(s, searchResult);
+			break;
+		case 2:
 			UserInteraction.logout();
 			break;
 		default:

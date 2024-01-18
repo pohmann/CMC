@@ -70,4 +70,16 @@ public class DatabaseController {
 		return result;
 	}
 	
+	// get the list of all the universities in the DB
+	public static List<String[]> getAllSchools() {
+		String[][] dbUniversityList = database.university_getUniversities();
+
+		ArrayList<String[]> result = new ArrayList<String[]>();
+		for (String[] school : dbUniversityList) {
+			result.add(school);
+		}
+
+		return result;
+	}
+	
 }

@@ -1,5 +1,6 @@
 package cmc.controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import cmc.CMCException;
@@ -42,6 +43,21 @@ public class UserController {
 			//       clearly by passing it on?
 			return false;
 		}
+	}
+	
+	// this REGULAR USER ONLY method searches for schools in the database
+	// based on provided criteria (just state for now)
+	public static List<String[]> search(String state) {
+		List<String[]> schoolList = DatabaseController.getAllSchools();
+		
+		List<String[]> filteredList = new ArrayList<String[]>();
+		for (int i = 0; i < schoolList.size(); i++) {
+			String[] school = schoolList.get(i);
+			if (school[1].equals(state) || school[1] == "")
+				filteredList.add(school);
+		}
+		
+		return filteredList;
 	}
 
 }
