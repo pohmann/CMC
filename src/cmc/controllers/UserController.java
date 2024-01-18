@@ -17,5 +17,12 @@ public class UserController {
 		List<String[]> usersList = DatabaseController.getAllUsers();
 		return usersList;
 	}
+	
+	// this ADMIN ONLY method attempts to add a user to the database with the
+	// provided details
+	public static boolean addUser(String username, String password,
+			String firstName, String lastName, boolean isAdmin) {
+		return DatabaseController.addUser(username, password, firstName, lastName, isAdmin);
+	}
 
 }

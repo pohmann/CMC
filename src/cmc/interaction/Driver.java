@@ -69,16 +69,22 @@ public class Driver {
 	private static void adminUserListMenu(Scanner s) {
 		printHeader("Admin User List");
 		
+		// TODO: it would be nice if this was refactored into a list of User objects...
 		List<String[]> allUsers = UserInteraction.getAllUsers();
 		for (String[] user : allUsers) {
 			System.out.println(user[2] + " | " + user[0] + " | " + user[1]);
 		}
 		System.out.println();
 		
-		int choice = getMenuOption(s, List.of("Go Back"));
+		int choice = getMenuOption(s, List.of("Add User", "Go Back"));
 		
 		switch(choice) {
 		case 1:
+			boolean success = UserInteraction.addUser(s);
+			if (!success)
+				System.out.println("Failed to add new user.  (Username already exists?)");
+			break;
+		case 2:
 			return;
 		default:
 			System.err.println("Internal error: Unsupported option.");

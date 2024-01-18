@@ -67,4 +67,21 @@ public class DatabaseController {
 		return result;
 	}
 	
+	// attempt to add the user data to the database
+	// TODO: it would be nice if this could take a User object instead
+	// (so "higher-abstraction" classes don't have to worry about the order
+	//  of properties)
+	public static boolean addUser(String username, String password,
+			String firstName, String lastName, boolean isAdmin) {
+		char type = (isAdmin ? 'a' : 'u');
+		int result = database.user_addUser(firstName, lastName, username, password, type);
+		if (result == 1) {
+			// per the documentation, only the value "1" indicates success
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	
 }
