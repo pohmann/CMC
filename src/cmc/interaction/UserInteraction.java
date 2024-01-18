@@ -25,6 +25,17 @@ public class UserInteraction {
 		}
 		return result;
 	}
+	
+	// returns true if there is a user to log out, otherwise false
+	public static boolean logout() {
+		if (loggedInUser == null) {
+			return false;
+		}
+		else {
+			loggedInUser = null;
+			return true;
+		}
+	}
 
 	/**
 	 * Get the current username for the current user logged in via
