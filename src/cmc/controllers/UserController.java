@@ -59,5 +59,11 @@ public class UserController {
 		
 		return filteredList;
 	}
+	
+	// this REGULAR USER ONLY method attempts to add the provided school
+	// to the list of saved schools for the provided username
+	public static boolean saveSchool(String user, String school) {
+		return DatabaseController.saveSchool(user, school);
+	}
 
 }

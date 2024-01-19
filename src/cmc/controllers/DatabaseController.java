@@ -82,4 +82,18 @@ public class DatabaseController {
 		return result;
 	}
 	
+	// save a school to a particular user's list
+	// TODO: It feels like we should be able to do this as part of
+	//       "updating" a user in the DB.
+	public static boolean saveSchool(String username, String schoolName) {
+		int result = database.user_saveSchool(username, schoolName);
+		if (result != 1) {
+			// TODO: How can we tell the difference?
+			throw new Error("Error saving school to user in the DB.  Already present?  DB error?");
+		}
+		else {
+			return true;
+		}
+	}
+	
 }

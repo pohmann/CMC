@@ -121,10 +121,14 @@ public class Driver {
 		}
 		System.out.println();
 
-		int choice = getMenuOption(s, List.of("Go Back"));
+		int choice = getMenuOption(s, List.of("Save School", "Go Back"));
 
 		switch(choice) {
 		case 1:
+			if (!UserInteraction.saveSchool(s))
+				System.out.println("Failed to save school.  (Already in saved list?)");
+			break;
+		case 2:
 			return;
 		default:
 			System.err.println("Internal error: Unsupported option.");
