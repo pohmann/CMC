@@ -1,4 +1,4 @@
-package cmc.controllers;
+package cmc.backend;
 import java.util.ArrayList;
 import java.util.List;
 

@@ -1,12 +1,11 @@
-package cmc.interaction;
+package cmc.frontend;
 
 import java.util.List;
 import java.util.Scanner;
 
 import cmc.CMCException;
-import cmc.controllers.LoginController;
-import cmc.controllers.UserController;
-import cmc.user.User;
+import cmc.backend.SystemController;
+import cmc.backend.User;
 
 public class UserInteraction {
 	
@@ -19,7 +18,7 @@ public class UserInteraction {
 
 	// attempt to login, print message, and return success or failure
 	public static boolean login(String username, String password) {
-		User result = LoginController.login(username, password);
+		User result = SystemController.login(username, password);
 		if (result != null) {
 			System.out.println("Login successful!");
 			loggedInUser = result;
@@ -45,7 +44,7 @@ public class UserInteraction {
 	
 	// for admins, this gets the list of all users in the system
 	public static List<String[]> getAllUsers() {
-		return UserController.getAllUsers();
+		return SystemController.getAllUsers();
 	}
 	
 	// ask the admin for details and then attempt to add a user to the
@@ -64,7 +63,7 @@ public class UserInteraction {
 		if (s.nextLine().trim().equalsIgnoreCase("y"))
 			isAdmin = true;
 		
-		return UserController.addUser(username, password, firstName, lastName, isAdmin);
+		return SystemController.addUser(username, password, firstName, lastName, isAdmin);
 	}
 	
 	// ask the admin for a username and then remove that user from the
@@ -73,7 +72,7 @@ public class UserInteraction {
 		System.out.print("Username: ");
 		String username = s.nextLine();
 
-		return UserController.removeUser(username);
+		return SystemController.removeUser(username);
 	}
 	
 	public static List<String[]> search(Scanner s) {
@@ -82,7 +81,7 @@ public class UserInteraction {
 		System.out.print("State (leave blank to not search by this criterion): ");
 		String state = s.nextLine();
 		
-		return UserController.search(state);
+		return SystemController.search(state);
 	}
 	
 	// ask for a school name to save, and attempt to save that school
@@ -94,7 +93,7 @@ public class UserInteraction {
 		if (loggedInUser == null)
 			return false;
 		else
-			return UserController.saveSchool(loggedInUser.username, schoolName);
+			return SystemController.saveSchool(loggedInUser.username, schoolName);
 	}
 
 	/**

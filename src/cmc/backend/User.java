@@ -1,4 +1,4 @@
-package cmc.user;
+package cmc.backend;
 
 public class User {
 	public String username;
