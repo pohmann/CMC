@@ -95,6 +95,11 @@ public class UserInteraction {
 		else
 			return SystemController.saveSchool(loggedInUser.username, schoolName);
 	}
+	
+	// get the list of saved school names for the currently-logged-in user
+	public static List<String> getSavedSchools() {
+		return SystemController.getSavedSchools(loggedInUser.username);
+	}
 
 	/**
 	 * Get the current username for the current user logged in via

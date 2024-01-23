@@ -2,6 +2,7 @@ package cmc.backend;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import cmc.CMCException;
 
@@ -9,7 +10,7 @@ public class SystemController {
 	
 	// other classes should *not* instantiate this class.  It is "pure static".
 	private SystemController() throws CMCException {
-		throw new CMCException("Attempt to instantiate a UserController");
+		throw new CMCException("Attempt to instantiate a SystemController");
 	}
 	
 	/**
@@ -91,6 +92,13 @@ public class SystemController {
 	// to the list of saved schools for the provided username
 	public static boolean saveSchool(String user, String school) {
 		return DatabaseController.saveSchool(user, school);
+	}
+	
+	// this REGULAR USER ONLY method attempts to retrieve the list of saved
+	// schools for the provided username
+	public static List<String> getSavedSchools(String user) {
+		Map<String, List<String>> usersToSavedSchools = DatabaseController.getUserSavedSchoolMap();
+		return usersToSavedSchools.get(user);
 	}
 
 }

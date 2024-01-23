@@ -1,6 +1,8 @@
 package cmc.backend;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import cmc.CMCException;
 import dblibrary.project.csci230.*;
@@ -94,6 +96,27 @@ public class DatabaseController {
 		else {
 			return true;
 		}
+	}
+	
+	// get the mapping from users to their saved universities in the DB
+	// e.g., peter -> {CSBSJU, HARVARD}
+	//       juser -> {YALE, AUGSBURG, STANFORD}
+	public static Map<String, List<String>> getUserSavedSchoolMap() {
+		String[][] dbMapping = database.user_getUsernamesWithSavedSchools();
+
+		HashMap<String, List<String>> result = new HashMap<String, List<String>>();
+		
+		for (String[] entry : dbMapping) {
+			String user = entry[0];
+			String school = entry[1];
+			
+			if (!result.containsKey(user))
+				result.put(user, new ArrayList<String>());
+			
+			result.get(user).add(school);
+		}
+
+		return result;
 	}
 	
 }

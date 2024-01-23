@@ -136,10 +136,32 @@ public class Driver {
 		}
 	}
 	
+	private static void userSavedSchoolListMenu(Scanner s) {
+		printHeader("User Saved School List");
+		
+		// TODO: it would be nice if this was refactored into a list of objects
+		//       so we can display some data about the school...
+		List<String> schools = UserInteraction.getSavedSchools();
+		for (String school : schools) {
+			System.out.println(school);
+		}
+		System.out.println();
+		
+		int choice = getMenuOption(s, List.of("Go Back"));
+		
+		switch(choice) {
+		case 1:
+			return;
+		default:
+			System.err.println("Internal error: Unsupported option.");
+			System.exit(1);
+		}
+	}
+	
 	private static void regularUserMenu(Scanner s) {
 		printHeader("User Menu");
 		
-		int choice = getMenuOption(s, List.of("Search", "Logout"));
+		int choice = getMenuOption(s, List.of("Search", "View Saved Schools", "Logout"));
 		
 		switch(choice) {
 		case 1:
@@ -149,6 +171,9 @@ public class Driver {
 			searchResultsMenu(s, searchResult);
 			break;
 		case 2:
+			userSavedSchoolListMenu(s);
+			break;
+		case 3:
 			UserInteraction.logout();
 			break;
 		default:
