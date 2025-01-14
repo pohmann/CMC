@@ -16,7 +16,7 @@ import dblibrary.project.csci230.*;
  */
 public class DatabaseController {
 	// TODO: we'll need to update this to our team's actual database someday!
-	private static UniversityDBLibrary database = new UniversityDBLibrary("csci230", "csci230");
+	private static UniversityDBLibrary database = new UniversityDBLibrary("csci230", "Csci230$");
 
 	// add a user to the db
 	// TODO: it would be nice if this could take a User object instead
