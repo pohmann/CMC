@@ -4,7 +4,17 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
+import cmc.CMCException;
+
 public class Driver {
+	
+	// the static UserInteraction object to use for all calls into CMC code
+	private static UserInteraction ui = new UserInteraction();
+	
+	// other classes should *not* instantiate this class.  It is "pure static".
+	private Driver() throws CMCException {
+		throw new CMCException("Attempt to instantiate a Driver");
+	}
 	
 	/**
 	 * Get the selected menu option based on user entry.
@@ -71,7 +81,7 @@ public class Driver {
 		printHeader("Admin User List");
 		
 		// TODO: it would be nice if this was refactored into a list of User objects...
-		List<String[]> allUsers = UserInteraction.getAllUsers();
+		List<String[]> allUsers = ui.getAllUsers();
 		for (String[] user : allUsers) {
 			System.out.println(user[2] + " | " + user[0] + " | " + user[1]);
 		}
@@ -81,11 +91,11 @@ public class Driver {
 		
 		switch(choice) {
 		case 1:
-			if (!UserInteraction.addUser(s))
+			if (!ui.addUser(s))
 				System.out.println("Failed to add new user.  (Username already exists?)");
 			break;
 		case 2:
-			if (!UserInteraction.removeUser(s))
+			if (!ui.removeUser(s))
 				System.out.println("Failed to remove user.  (Invalid username?)");
 			break;
 		case 3:
@@ -106,7 +116,7 @@ public class Driver {
 			adminUserListMenu(s);
 			break;
 		case 2:
-			UserInteraction.logout();
+			ui.logout();
 			break;
 		default:
 			System.err.println("Internal error: Unsupported option.");
@@ -126,7 +136,7 @@ public class Driver {
 
 		switch(choice) {
 		case 1:
-			if (!UserInteraction.saveSchool(s))
+			if (!ui.saveSchool(s))
 				System.out.println("Failed to save school.  (Already in saved list?)");
 			break;
 		case 2:
@@ -142,7 +152,7 @@ public class Driver {
 		
 		// TODO: it would be nice if this was refactored into a list of objects
 		//       so we can display some data about the school...
-		List<String> schools = UserInteraction.getSavedSchools();
+		List<String> schools = ui.getSavedSchools();
 		for (String school : schools) {
 			System.out.println(school);
 		}
@@ -168,14 +178,14 @@ public class Driver {
 		case 1:
 			// TODO: it would be cleaner to use objects here (rather than
 			//       arrays of strings)
-			List<String[]> searchResult = UserInteraction.search(s);
+			List<String[]> searchResult = ui.search(s);
 			searchResultsMenu(s, searchResult);
 			break;
 		case 2:
 			userSavedSchoolListMenu(s);
 			break;
 		case 3:
-			UserInteraction.logout();
+			ui.logout();
 			break;
 		default:
 			System.err.println("Internal error: Unsupported option.");
@@ -196,7 +206,7 @@ public class Driver {
 		System.out.print("Password: ");
 		String password = s.nextLine();
 
-		boolean success = UserInteraction.login(username, password);
+		boolean success = ui.login(username, password);
 		if (success)
 			System.out.println("Redirecting to main menu.");
 	}
@@ -206,9 +216,9 @@ public class Driver {
 		Scanner s = new Scanner(System.in);
 		
 		while (true) {
-			if (UserInteraction.getLoggedInUser() == null)
+			if (ui.getLoggedInUser() == null)
 				topMenu(s);
-			else if (UserInteraction.getLoggedInUser().isAdmin())
+			else if (ui.getLoggedInUser().isAdmin())
 				adminMenu(s);
 			else
 				regularUserMenu(s);

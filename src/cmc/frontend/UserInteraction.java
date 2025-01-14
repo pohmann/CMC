@@ -3,53 +3,58 @@ package cmc.frontend;
 import java.util.List;
 import java.util.Scanner;
 
-import cmc.CMCException;
 import cmc.backend.SystemController;
 import cmc.backend.User;
 
 public class UserInteraction {
 	
-	private static User loggedInUser = null;
-
-	// other classes should *not* instantiate this class.  It is "pure static".
-	private UserInteraction() throws CMCException {
-		throw new CMCException("Attempt to instantiate a UserInteraction");
+	private User loggedInUser;
+	
+	private SystemController theSystemController;
+	
+	// Construct a UserInteraction using the basic (no parameter)
+	// SystemController as the single underlying controller object.
+	// TODO: Someday, we should refactor the single SystemController class
+	//       into multiple classes for better organization of functionalities.
+	public UserInteraction() {
+		this.theSystemController = new SystemController();
+		this.loggedInUser = null;
 	}
 
 	// attempt to login, print message, and return success or failure
-	public static boolean login(String username, String password) {
-		User result = SystemController.login(username, password);
+	public boolean login(String username, String password) {
+		User result = this.theSystemController.login(username, password);
 		if (result != null) {
 			System.out.println("Login successful!");
-			loggedInUser = result;
+			this.loggedInUser = result;
 			return true;
 		}
 		else {
 			System.out.println("Login failed!  Incorrect username or password.");
-			loggedInUser = null;
+			this.loggedInUser = null;
 			return false;
 		}
 	}
 	
 	// returns true if there is a user to log out, otherwise false
-	public static boolean logout() {
-		if (loggedInUser == null) {
+	public boolean logout() {
+		if (this.loggedInUser == null) {
 			return false;
 		}
 		else {
-			loggedInUser = null;
+			this.loggedInUser = null;
 			return true;
 		}
 	}
 	
 	// for admins, this gets the list of all users in the system
-	public static List<String[]> getAllUsers() {
-		return SystemController.getAllUsers();
+	public List<String[]> getAllUsers() {
+		return this.theSystemController.getAllUsers();
 	}
 	
 	// ask the admin for details and then attempt to add a user to the
 	// database
-	public static boolean addUser(Scanner s) {
+	public boolean addUser(Scanner s) {
 		System.out.print("Username: ");
 		String username = s.nextLine();
 		System.out.print("Password: ");
@@ -63,42 +68,42 @@ public class UserInteraction {
 		if (s.nextLine().trim().equalsIgnoreCase("y"))
 			isAdmin = true;
 		
-		return SystemController.addUser(username, password, firstName, lastName, isAdmin);
+		return this.theSystemController.addUser(username, password, firstName, lastName, isAdmin);
 	}
 	
 	// ask the admin for a username and then remove that user from the
 	// database
-	public static boolean removeUser(Scanner s) {
+	public boolean removeUser(Scanner s) {
 		System.out.print("Username: ");
 		String username = s.nextLine();
 
-		return SystemController.removeUser(username);
+		return this.theSystemController.removeUser(username);
 	}
 	
-	public static List<String[]> search(Scanner s) {
+	public List<String[]> search(Scanner s) {
 		// TODO: in the future, we would like to support searching by various
 		//       criteria, but we'll settle for just state for now
 		System.out.print("State (leave blank to not search by this criterion): ");
 		String state = s.nextLine();
 		
-		return SystemController.search(state);
+		return this.theSystemController.search(state);
 	}
 	
 	// ask for a school name to save, and attempt to save that school
 	// to the list for the currently-logged-in user
-	public static boolean saveSchool(Scanner s) {
+	public boolean saveSchool(Scanner s) {
 		System.out.print("School Name: ");
 		String schoolName = s.nextLine();
 
-		if (loggedInUser == null)
+		if (this.loggedInUser == null)
 			return false;
 		else
-			return SystemController.saveSchool(loggedInUser.username, schoolName);
+			return this.theSystemController.saveSchool(this.loggedInUser.username, schoolName);
 	}
 	
 	// get the list of saved school names for the currently-logged-in user
-	public static List<String> getSavedSchools() {
-		return SystemController.getSavedSchools(loggedInUser.username);
+	public List<String> getSavedSchools() {
+		return this.theSystemController.getSavedSchools(this.loggedInUser.username);
 	}
 
 	/**
@@ -107,8 +112,8 @@ public class UserInteraction {
 	 * 
 	 * @return the username for the logged in user
 	 */
-	public static User getLoggedInUser() {
-		return loggedInUser;
+	public User getLoggedInUser() {
+		return this.loggedInUser;
 	}
 
 }
