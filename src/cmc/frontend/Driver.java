@@ -1,5 +1,6 @@
 package cmc.frontend;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
@@ -76,7 +77,7 @@ public class Driver {
 		}
 		System.out.println();
 		
-		int choice = getMenuOption(s, List.of("Add User", "Remove User", "Go Back"));
+		int choice = getMenuOption(s, Arrays.asList("Add User", "Remove User", "Go Back"));
 		
 		switch(choice) {
 		case 1:
@@ -98,7 +99,7 @@ public class Driver {
 	private static void adminMenu(Scanner s) {
 		printHeader("Admin Menu");
 		
-		int choice = getMenuOption(s, List.of("View List of Users", "Logout"));
+		int choice = getMenuOption(s, Arrays.asList("View List of Users", "Logout"));
 		
 		switch(choice) {
 		case 1:
@@ -121,7 +122,7 @@ public class Driver {
 		}
 		System.out.println();
 
-		int choice = getMenuOption(s, List.of("Save School", "Go Back"));
+		int choice = getMenuOption(s, Arrays.asList("Save School", "Go Back"));
 
 		switch(choice) {
 		case 1:
@@ -147,7 +148,7 @@ public class Driver {
 		}
 		System.out.println();
 		
-		int choice = getMenuOption(s, List.of("Go Back"));
+		int choice = getMenuOption(s, Arrays.asList("Go Back"));
 		
 		switch(choice) {
 		case 1:
@@ -161,7 +162,7 @@ public class Driver {
 	private static void regularUserMenu(Scanner s) {
 		printHeader("User Menu");
 		
-		int choice = getMenuOption(s, List.of("Search", "View Saved Schools", "Logout"));
+		int choice = getMenuOption(s, Arrays.asList("Search", "View Saved Schools", "Logout"));
 		
 		switch(choice) {
 		case 1:
@@ -187,7 +188,7 @@ public class Driver {
 		System.out.println("Please log in.");
 
 		String username = "";
-		while (username.isBlank()) {
+		while (username.trim().isEmpty()) {
 			System.out.print("Username: ");
 			username = s.nextLine();
 		}
