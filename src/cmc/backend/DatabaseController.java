@@ -77,7 +77,25 @@ public class DatabaseController {
 		
 		return result;
 	}
-	
+
+	// deactivate a user in the database
+	// This is messy, and it would be much cleaner to do
+	// an editUser with an updated User object!
+	public boolean deactivateUser(String username) throws CMCException {
+		String[] theUser = getUser(username);
+		if (theUser == null)
+			return false;
+
+		int result = this.database.user_editUser(theUser[2], theUser[0], theUser[1], theUser[3], theUser[4].charAt(0), 'N');
+
+		if (result == -1) {
+			throw new CMCException("Error editing user (to deactivate) in the DB");
+		}
+		else {
+			return true;
+		}
+	}
+
 	// get the list of all the universities in the DB
 	public List<String[]> getAllSchools() {
 		String[][] dbUniversityList = this.database.university_getUniversities();
